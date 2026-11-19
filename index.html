@@ -317,16 +317,86 @@ footer {
   .swatch-code { font-size: 10px; }
   .saved-item { flex-wrap: wrap; }
 }
+  
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nav-tab {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 9px 11px;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  background: #f0eee9;
+}
+
+.nav-tab.active {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.game-placeholder {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 35px 25px;
+  text-align: center;
+  min-height: 250px;
+}
+
+.game-placeholder p {
+  color: var(--muted);
+}
+
+@media (max-width: 750px) {
+  header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .main-nav {
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 5px;
+  }
+}
+
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">Palette <span>Studio.</span></div>
-  <small>Explore color. Create combinations.</small>
+  <nav class="main-nav" aria-label="Main navigation">
+    <button class="nav-tab active" data-screen="generatorScreen">Generator</button>
+    <button class="nav-tab" data-screen="matchScreen">Color Match</button>
+    <button class="nav-tab" data-screen="quizScreen">Color Quiz</button>
+    <button class="nav-tab" data-screen="memoryScreen">Palette Memory</button>
+    <button class="nav-tab" data-screen="spectrumScreen">Spectrum Sort</button>
+    <button class="nav-tab" data-screen="guessScreen">Guess the Palette</button>
+  </nav>
 </header>
 
 <main>
+  <section id="generatorScreen" class="screen active">
   <section class="intro">
     <h1>Find your colors.</h1>
     <p>Build color palettes, experiment with combinations, and save your favorites.</p>
@@ -410,6 +480,64 @@ footer {
       </div>
     </section>
   </div>
+    
+  </section>
+
+  <section id="matchScreen" class="screen">
+    <div class="intro">
+      <h1>Color Match</h1>
+      <p>Test your ability to recreate colors.</p>
+    </div>
+    <div class="game-placeholder">
+      <h2>Color Match</h2>
+      <p>Your color matching challenge is coming soon!</p>
+    </div>
+  </section>
+
+  <section id="quizScreen" class="screen">
+    <div class="intro">
+      <h1>Color Theory Quiz</h1>
+      <p>Put your color knowledge to the test.</p>
+    </div>
+    <div class="game-placeholder">
+      <h2>Color Theory Quiz</h2>
+      <p>Test your knowledge of color relationships.</p>
+    </div>
+  </section>
+
+  <section id="memoryScreen" class="screen">
+    <div class="intro">
+      <h1>Palette Memory</h1>
+      <p>Remember the colors and recreate the sequence.</p>
+    </div>
+    <div class="game-placeholder">
+      <h2>Palette Memory</h2>
+      <p>A color memory challenge is coming soon!</p>
+    </div>
+  </section>
+
+  <section id="spectrumScreen" class="screen">
+    <div class="intro">
+      <h1>Spectrum Sort</h1>
+      <p>Arrange colors to create a smooth spectrum.</p>
+    </div>
+    <div class="game-placeholder">
+      <h2>Spectrum Sort</h2>
+      <p>Put your color organization skills to work.</p>
+    </div>
+  </section>
+
+  <section id="guessScreen" class="screen">
+    <div class="intro">
+      <h1>Guess the Palette</h1>
+      <p>Use clues to recreate a mystery palette.</p>
+    </div>
+    <div class="game-placeholder">
+      <h2>Guess the Palette</h2>
+      <p>Can you figure out the hidden color combination?</p>
+    </div>
+  </section>
+
 </main>
 
 <footer>Palette Studio · A color exploration tool</footer>
@@ -756,6 +884,25 @@ $("savePalette").addEventListener("click", () => {
     $("paletteName").value = "";
     renderSaved();
   }
+});
+
+// Main navigation
+document.querySelectorAll(".nav-tab").forEach(button => {
+  button.addEventListener("click", () => {
+    const screenId = button.dataset.screen;
+
+    document.querySelectorAll(".screen").forEach(screen => {
+      screen.classList.remove("active");
+    });
+
+    document.getElementById(screenId).classList.add("active");
+
+    document.querySelectorAll(".nav-tab").forEach(tab => {
+      tab.classList.toggle("active", tab === button);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 });
 
 updateControls();
