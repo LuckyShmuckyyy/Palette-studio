@@ -3052,18 +3052,26 @@ memoryUpdateBest();
   // SPECTRUM SORT GAME
 
 const spectrumPalettes = {
-  easy: [
-    "#F4E8D8", "#D9BFA6", "#B9947C", "#8A6858", "#49372F"
-  ],
-  medium: [
-    "#F1E5DC", "#DCC4B4", "#C5A18D", "#AA806C",
-    "#8C6256", "#69483F", "#392A28"
-  ],
-  hard: [
-    "#F2E8DF", "#E2CFC2", "#D3B9A9", "#C4A494",
-    "#B18C7C", "#9C776A", "#806257", "#634A43", "#3E302C"
-  ]
+  easy: 5,
+  medium: 7,
+  hard: 9
 };
+
+// Generate a palette using one random hue.
+function spectrumGeneratePalette(count) {
+  const hue = Math.floor(Math.random() * 360);
+  const colors = [];
+
+  for (let i = 0; i < count; i++) {
+    const lightness = 90 - (i * (70 / (count - 1)));
+
+    colors.push(
+      `hsl(${hue}, 65%, ${lightness}%)`
+    );
+  }
+
+  return colors;
+}
 
 const spectrumTiles = document.getElementById("spectrumTiles");
 const spectrumDifficulty = document.getElementById("spectrumDifficulty");
@@ -3094,8 +3102,10 @@ function spectrumShuffle(array) {
 }
 
 function spectrumStartGame() {
-  spectrumCorrectColors = [...spectrumPalettes[spectrumDifficulty.value]];
-  spectrumCurrentColors = spectrumShuffle(spectrumCorrectColors);
+const colorCount = spectrumPalettes[spectrumDifficulty.value];
+
+spectrumCorrectColors = spectrumGeneratePalette(colorCount);
+spectrumCurrentColors = spectrumShuffle(spectrumCorrectColors);
 
   // Ensure the starting order isn't already correct.
   while (
