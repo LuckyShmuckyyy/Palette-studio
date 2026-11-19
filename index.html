@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palette Studio</title>
+<style>
+:root {
+  --bg: #f5f3ef;
+  --panel: #ffffff;
+  --ink: #252522;
+  --muted: #77766f;
+  --line: #e7e4de;
+  --accent: #6d6a55;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+}
+header {
+  padding: 25px 6%;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.logo span { color: var(--accent); }
+header small { color: var(--muted); }
+main {
+  max-width: 1150px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+.intro { margin-bottom: 25px; }
+h1 {
+  font-size: clamp(28px, 5vw, 42px);
+  margin: 0 0 8px;
+  letter-spacing: -1.5px;
+}
+p { line-height: 1.5; }
+.intro p { color: var(--muted); margin: 0; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(300px, 1.1fr);
+  gap: 20px;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 23px;
+  min-width: 0;
+}
+h2 {
+  font-size: 18px;
+  margin: 0 0 18px;
+}
+.wheel-area {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0 22px;
+}
+.wheel {
+  width: min(100%, 290px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  position: relative;
+  cursor: crosshair;
+  background: conic-gradient(
+    #ff0000, #ffff00, #00ff00, #00ffff,
+    #0000ff, #ff00ff, #ff0000
+  );
+  touch-action: none;
+}
+.wheel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(0,0,0,.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.pointer {
+  width: 18px;
+  height: 18px;
+  border: 3px solid white;
+  outline: 1px solid #333;
+  border-radius: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.control { margin: 15px 0; }
+.control-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.control-head span:last-child { color: var(--muted); }
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.hue-range {
+  background: linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red);
+  height: 8px;
+  border-radius: 10px;
+  appearance: none;
+}
+.hue-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #333;
+}
+.value-range { accent-color: #555; }
+.hex-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+input[type="text"] {
+  min-width: 0;
+  flex: 1;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font: inherit;
+}
+button, select {
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 10px 13px;
+  background: white;
+  color: var(--ink);
+  cursor: pointer;
+}
+button:hover { background: #f0eee9; }
+button.primary {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+button.primary:hover { background: #494943; }
+button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid #77745e;
+  outline-offset: 2px;
+}
+.scheme-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 20px;
+}
+.scheme-row button {
+  font-size: 12px;
+  padding: 8px 10px;
+}
+.scheme-row button.active {
+  background: var(--ink);
+  color: white;
+  border-color: var(--ink);
+}
+.palette {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+.swatch { min-width: 0; }
+.swatch-color {
+  height: 150px;
+  border-radius: 8px;
+  border: 1px solid rgba(0,0,0,.08);
+  cursor: pointer;
+}
+.swatch-code {
+  display: block;
+  width: 100%;
+  border: 0;
+  padding: 8px 1px;
+  font-size: 11px;
+  background: transparent;
+  text-align: center;
+}
+.swatch-code:hover { text-decoration: underline; }
+.actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+.preview {
+  margin-top: 24px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.preview-art {
+  min-height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+}
+.preview-card {
+  width: 75%;
+  padding: 18px;
+  border-radius: 8px;
+}
+.preview-card strong {
+  display: block;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+.preview-card small { font-size: 11px; }
+.preview-caption {
+  padding: 10px 13px;
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+.save-area {
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.save-row {
+  display: flex;
+  gap: 8px;
+}
+.saved-list {
+  display: grid;
+  gap: 9px;
+  margin-top: 15px;
+}
+.saved-item {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.saved-colors {
+  display: flex;
+  flex: 1;
+  min-width: 65px;
+}
+.saved-colors span {
+  height: 25px;
+  flex: 1;
+}
+.saved-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.saved-item button { padding: 7px 9px; font-size: 12px; }
+.empty {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 8px 0;
+}
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 15px;
+  font-size: 12px;
+}
+@media (max-width: 750px) {
+  .layout { grid-template-columns: 1fr; }
+  header { padding: 20px; }
+  main { margin-top: 25px; }
+  .swatch-color { height: 105px; }
+}
+@media (max-width: 420px) {
+  .panel { padding: 16px; }
+  .palette { gap: 5px; }
+  .swatch-color { height: 85px; }
+  .swatch-code { font-size: 10px; }
+  .saved-item { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Palette <span>Studio.</span></div>
+  <small>Explore color. Create combinations.</small>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Find your colors.</h1>
+    <p>Build color palettes, experiment with combinations, and save your favorites.</p>
+  </section>
+
+  <div class="layout">
+    <section class="panel">
+      <h2>Choose a color</h2>
+
+      <div class="wheel-area">
+        <div class="wheel" id="wheel" aria-label="Color selection wheel">
+          <div class="pointer" id="pointer"></div>
+        </div>
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="hue">Hue</label>
+          <span id="hueValue">0°</span>
+        </div>
+        <input class="hue-range" id="hue" type="range" min="0" max="359" value="0">
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="chroma">Chroma / Saturation</label>
+          <span id="chromaValue">75%</span>
+        </div>
+        <input id="chroma" type="range" min="0" max="100" value="75">
+      </div>
+
+      <div class="control">
+        <div class="control-head">
+          <label for="value">Value / Brightness</label>
+          <span id="valueValue">90%</span>
+        </div>
+        <input id="value" class="value-range" type="range" min="0" max="100" value="90">
+      </div>
+
+      <div class="hex-row">
+        <input id="hexInput" type="text" value="#E63939" maxlength="7" aria-label="HEX color">
+        <button id="applyHex">Apply</button>
+        <button id="random">Random</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Your color palette</h2>
+
+      <div class="scheme-row" id="schemes">
+        <button class="active" data-scheme="complementary">Complementary</button>
+        <button data-scheme="analogous">Analogous</button>
+        <button data-scheme="triadic">Triadic</button>
+        <button data-scheme="split">Split complementary</button>
+        <button data-scheme="monochromatic">Monochromatic</button>
+      </div>
+
+      <div class="palette" id="palette"></div>
+
+      <div class="actions">
+        <button class="primary" id="copyAll">Copy all HEX codes</button>
+      </div>
+
+      <div class="preview">
+        <div class="preview-art" id="previewArt">
+          <div class="preview-card" id="previewCard">
+            <strong>Creative ideas.</strong>
+            <small>Color makes a difference.</small>
+          </div>
+        </div>
+        <div class="preview-caption">A simple preview of your color combination</div>
+      </div>
+
+      <div class="save-area">
+        <h2>Save your palette</h2>
+        <div class="save-row">
+          <input type="text" id="paletteName" placeholder="Name your palette">
+          <button class="primary" id="savePalette">Save</button>
+        </div>
+        <div class="saved-list" id="savedList"></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>Palette Studio · A color exploration tool</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let hue = 0;
+let saturation = 75;
+let value = 90;
+let scheme = "complementary";
+let currentColors = [];
+
+const wheel = $("wheel");
+const pointer = $("pointer");
+
+function hsvToHex(h, s, v) {
+  s /= 100;
+  v /= 100;
+  const c = v * s;
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const m = v - c;
+  let r = 0, g = 0, b = 0;
+
+  if (h < 60) [r,g,b] = [c,x,0];
+  else if (h < 120) [r,g,b] = [x,c,0];
+  else if (h < 180) [r,g,b] = [0,c,x];
+  else if (h < 240) [r,g,b] = [0,x,c];
+  else if (h < 300) [r,g,b] = [x,0,c];
+  else [r,g,b] = [c,0,x];
+
+  const hex = n => Math.round((n + m) * 255)
+    .toString(16).padStart(2, "0");
+
+  return ("#" + hex(r) + hex(g) + hex(b)).toUpperCase();
+}
+
+function hexToHsv(hex) {
+  hex = hex.replace("#", "");
+  const r = parseInt(hex.slice(0,2),16) / 255;
+  const g = parseInt(hex.slice(2,4),16) / 255;
+  const b = parseInt(hex.slice(4,6),16) / 255;
+
+  const max = Math.max(r,g,b);
+  const min = Math.min(r,g,b);
+  const delta = max - min;
+  let h = 0;
+
+  if (delta !== 0) {
+    if (max === r) h = 60 * (((g-b)/delta) % 6);
+    else if (max === g) h = 60 * ((b-r)/delta + 2);
+    else h = 60 * ((r-g)/delta + 4);
+  }
+
+  if (h < 0) h += 360;
+  return {
+    h: Math.round(h),
+    s: Math.round(max === 0 ? 0 : delta/max*100),
+    v: Math.round(max*100)
+  };
+}
+
+function updateWheelPointer() {
+  const radius = wheel.clientWidth / 2;
+  const distance = radius * saturation / 100;
+  const angle = (hue - 90) * Math.PI / 180;
+
+  pointer.style.left = (radius + Math.cos(angle)*distance) + "px";
+  pointer.style.top = (radius + Math.sin(angle)*distance) + "px";
+}
+
+function updateControls() {
+  $("hue").value = hue;
+  $("chroma").value = saturation;
+  $("value").value = value;
+  $("hueValue").textContent = hue + "°";
+  $("chromaValue").textContent = saturation + "%";
+  $("valueValue").textContent = value + "%";
+
+  $("hexInput").value = hsvToHex(hue,saturation,value);
+  updateWheelPointer();
+  renderPalette();
+}
+
+function setFromWheel(event) {
+  const rect = wheel.getBoundingClientRect();
+  const x = event.clientX - rect.left - rect.width/2;
+  const y = event.clientY - rect.top - rect.height/2;
+  const radius = rect.width/2;
+  const distance = Math.min(Math.sqrt(x*x+y*y), radius);
+
+  hue = (Math.atan2(y,x)*180/Math.PI + 90 + 360) % 360;
+  saturation = Math.round(distance/radius*100);
+  updateControls();
+}
+
+wheel.addEventListener("pointerdown", event => {
+  wheel.setPointerCapture(event.pointerId);
+  setFromWheel(event);
+});
+wheel.addEventListener("pointermove", event => {
+  if (event.buttons === 1) setFromWheel(event);
+});
+
+$("hue").addEventListener("input", e => {
+  hue = Number(e.target.value);
+  updateControls();
+});
+$("chroma").addEventListener("input", e => {
+  saturation = Number(e.target.value);
+  updateControls();
+});
+$("value").addEventListener("input", e => {
+  value = Number(e.target.value);
+  updateControls();
+});
+
+function getHarmonyColors() {
+  const offsets = {
+    complementary: [0, 180, 0, 180, 180],
+    analogous: [-40, -20, 0, 20, 40],
+    triadic: [0, 120, 240, 120, 240],
+    split: [0, 150, 210, 0, 180],
+    monochromatic: [0, 0, 0, 0, 0]
+  };
+
+  const brightness = {
+    complementary: [100, 100, 85, 75, 65],
+    analogous: [100, 95, 100, 95, 85],
+    triadic: [100, 95, 100, 85, 90],
+    split: [100, 95, 100, 85, 90],
+    monochromatic: [100, 85, 70, 55, 40]
+  };
+
+  const saturations = {
+    complementary: [100, 90, 75, 90, 75],
+    analogous: [90, 90, 100, 90, 85],
+    triadic: [100, 90, 90, 85, 75],
+    split: [100, 90, 90, 85, 75],
+    monochromatic: [100, 90, 85, 80, 75]
+  };
+
+  return offsets[scheme].map((offset,i) => {
+    const newHue = (hue + offset + 360) % 360;
+    const newSat = scheme === "monochromatic"
+      ? Math.min(100, saturation * saturations[scheme][i]/100)
+      : Math.min(100, saturation * saturations[scheme][i]/90);
+
+    const newValue = Math.min(100, value * brightness[scheme][i]/100);
+    return hsvToHex(newHue,newSat,newValue);
+  });
+}
+
+function renderPalette() {
+  currentColors = getHarmonyColors();
+  const palette = $("palette");
+  palette.innerHTML = "";
+
+  currentColors.forEach(color => {
+    const item = document.createElement("div");
+    item.className = "swatch";
+
+    const block = document.createElement("div");
+    block.className = "swatch-color";
+    block.style.background = color;
+    block.title = "Click to copy " + color;
+    block.addEventListener("click", () => copyText(color));
+
+    const code = document.createElement("button");
+    code.className = "swatch-code";
+    code.textContent = color;
+    code.title = "Copy HEX code";
+    code.addEventListener("click", () => copyText(color));
+
+    item.append(block,code);
+    palette.appendChild(item);
+  });
+
+  updatePreview();
+}
+
+function updatePreview() {
+  const colors = currentColors;
+  $("previewArt").style.background = colors[0];
+  $("previewCard").style.background = colors[1];
+  $("previewCard").style.color = colors[4];
+  $("previewCard").style.border = "3px solid " + colors[2];
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert("Copied " + text);
+  }).catch(() => {
+    alert("Copy wasn't available in this browser.");
+  });
+}
+
+$("copyAll").addEventListener("click", () => {
+  copyText(currentColors.join(", "));
+});
+
+$("applyHex").addEventListener("click", () => {
+  const hex = $("hexInput").value.trim();
+  if (!/^#?[0-9a-fA-F]{6}$/.test(hex)) {
+    alert("Please enter a valid 6-digit HEX code.");
+    return;
+  }
+  const color = hex.startsWith("#") ? hex : "#" + hex;
+  const hsv = hexToHsv(color);
+  hue = hsv.h;
+  saturation = hsv.s;
+  value = hsv.v;
+  updateControls();
+});
+
+$("hexInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") $("applyHex").click();
+});
+
+$("random").addEventListener("click", () => {
+  hue = Math.floor(Math.random()*360);
+  saturation = 45 + Math.floor(Math.random()*56);
+  value = 55 + Math.floor(Math.random()*46);
+  updateControls();
+});
+
+$("schemes").addEventListener("click", e => {
+  const button = e.target.closest("button[data-scheme]");
+  if (!button) return;
+  scheme = button.dataset.scheme;
+  document.querySelectorAll("#schemes button").forEach(b => {
+    b.classList.toggle("active", b === button);
+  });
+  renderPalette();
+});
+
+// Saved palettes
+function getSaved() {
+  try {
+    return JSON.parse(localStorage.getItem("palette-studio-saved-v1")) || [];
+  } catch {
+    return [];
+  }
+}
+
+function storeSaved(items) {
+  try {
+    localStorage.setItem("palette-studio-saved-v1", JSON.stringify(items));
+    return true;
+  } catch {
+    alert("Your browser couldn't save this palette.");
+    return false;
+  }
+}
+
+function renderSaved() {
+  const list = $("savedList");
+  const saved = getSaved();
+  list.innerHTML = "";
+
+  if (!saved.length) {
+    list.innerHTML = '<div class="empty">Your saved palettes will appear here.</div>';
+    return;
+  }
+
+  saved.forEach((item,index) => {
+    const row = document.createElement("div");
+    row.className = "saved-item";
+
+    const colors = document.createElement("div");
+    colors.className = "saved-colors";
+    item.colors.forEach(color => {
+      const chip = document.createElement("span");
+      chip.style.background = color;
+      colors.appendChild(chip);
+    });
+
+    const name = document.createElement("div");
+    name.className = "saved-name";
+    name.textContent = item.name;
+
+    const load = document.createElement("button");
+    load.textContent = "Load";
+    load.addEventListener("click", () => {
+      const hsv = hexToHsv(item.base);
+      hue = hsv.h;
+      saturation = hsv.s;
+      value = hsv.v;
+      scheme = item.scheme;
+      document.querySelectorAll("#schemes button").forEach(b => {
+        b.classList.toggle("active", b.dataset.scheme === scheme);
+      });
+      $("paletteName").value = item.name;
+      updateControls();
+    });
+
+    const remove = document.createElement("button");
+    remove.textContent = "Delete";
+    remove.addEventListener("click", () => {
+      const updated = getSaved();
+      updated.splice(index,1);
+      if (storeSaved(updated)) renderSaved();
+    });
+
+    row.append(colors,name,load,remove);
+    list.appendChild(row);
+  });
+}
+
+$("savePalette").addEventListener("click", () => {
+  const name = $("paletteName").value.trim();
+  if (!name) {
+    alert("Give your palette a name first.");
+    $("paletteName").focus();
+    return;
+  }
+
+  const saved = getSaved();
+  saved.push({
+    name,
+    base: hsvToHex(hue,saturation,value),
+    scheme,
+    colors: [...currentColors]
+  });
+
+  if (storeSaved(saved)) {
+    $("paletteName").value = "";
+    renderSaved();
+  }
+});
+
+updateControls();
+renderSaved();
+</script>
+</body>
+</html>
