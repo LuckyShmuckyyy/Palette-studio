@@ -450,13 +450,71 @@ footer {
   cursor: pointer;
 }
 
-#cmHue {
-  accent-color: #888;
-}
-
+/* Visual color match sliders */
+#cmHue,
 #cmSaturation,
 #cmLightness {
-  accent-color: #888;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  border-radius: 20px;
+  outline: none;
+  cursor: pointer;
+}
+
+#cmHue {
+  background: linear-gradient(
+    to right,
+    red,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    magenta,
+    red
+  );
+}
+
+#cmSaturation {
+  background: linear-gradient(
+    to right,
+    hsl(var(--cm-current-hue), 0%, 50%),
+    hsl(var(--cm-current-hue), 100%, 50%)
+  );
+}
+
+#cmLightness {
+  background: linear-gradient(
+    to right,
+    black,
+    hsl(var(--cm-current-hue), var(--cm-current-saturation), 50%),
+    white
+  );
+}
+
+#cmHue::-webkit-slider-thumb,
+#cmSaturation::-webkit-slider-thumb,
+#cmLightness::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #333;
+  cursor: grab;
+}
+
+#cmHue::-moz-range-thumb,
+#cmSaturation::-moz-range-thumb,
+#cmLightness::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #333;
+  cursor: grab;
 }
 
 .cm-button {
@@ -1075,13 +1133,19 @@ function cmGetPlayerColor() {
 }
 
 function cmUpdatePreview() {
-  const color = cmGetPlayerColor();
+  const h = Number(document.getElementById("cmHue").value);
+  const s = Number(document.getElementById("cmSaturation").value);
+  const l = Number(document.getElementById("cmLightness").value);
 
-  document.getElementById("cmPreview").style.background =
-    cmRgbToHex(color);
+  const color = cmHslToRgb(h, s, l);
+  const hex = cmRgbToHex(color);
 
-  document.getElementById("cmPreviewHex").textContent =
-    cmRgbToHex(color);
+  document.getElementById("cmPreview").style.background = hex;
+  document.getElementById("cmPreviewHex").textContent = hex;
+
+  const root = document.documentElement;
+  root.style.setProperty("--cm-current-hue", h);
+  root.style.setProperty("--cm-current-saturation", s + "%");
 }
 
 function cmNewRound() {
