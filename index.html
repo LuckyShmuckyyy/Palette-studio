@@ -979,6 +979,242 @@ footer {
     font-size: 20px;
   }
 }
+  /* SPECTRUM SORT */
+
+.spectrum-game {
+  max-width: 760px;
+  margin: 25px auto;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e8e7e1;
+  border-radius: 16px;
+}
+
+.spectrum-top {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e7e1;
+}
+
+.spectrum-top div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.spectrum-label,
+.spectrum-stats span,
+.spectrum-final-score span {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #858579;
+}
+
+.spectrum-top strong {
+  font-size: 24px;
+  color: #45483b;
+}
+
+.spectrum-start,
+.spectrum-results {
+  text-align: center;
+  padding: 35px 10px;
+}
+
+.spectrum-decoration {
+  color: #9a9c82;
+  letter-spacing: 5px;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+.spectrum-start h3,
+.spectrum-results h3 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.spectrum-start p,
+.spectrum-results p {
+  color: #77786e;
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+.spectrum-start label {
+  display: block;
+  margin: 20px 0 8px;
+  font-size: 13px;
+  color: #68695f;
+}
+
+#spectrumDifficulty {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 20px;
+  padding: 12px;
+  border: 1px solid #deded5;
+  border-radius: 8px;
+  background: #fafaf7;
+  color: #45483b;
+  font: inherit;
+}
+
+.spectrum-button,
+.spectrum-secondary {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.spectrum-button {
+  background: #656b54;
+  color: white;
+}
+
+.spectrum-secondary {
+  background: #efefe9;
+  color: #505345;
+}
+
+.spectrum-button:hover,
+.spectrum-secondary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.spectrum-stats {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin: 15px 0 22px;
+}
+
+.spectrum-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.spectrum-stats strong {
+  font-size: 19px;
+  color: #45483b;
+}
+
+.spectrum-instruction {
+  text-align: center;
+  color: #77786e;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.spectrum-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 520px;
+  margin: 0 auto 25px;
+}
+
+.spectrum-tile {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 9px 14px;
+  background: #fafaf7;
+  border: 1px solid #e8e7e1;
+  border-radius: 9px;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.spectrum-tile:active {
+  cursor: grabbing;
+}
+
+.spectrum-tile.dragging {
+  opacity: 0.45;
+}
+
+.spectrum-tile.drag-over {
+  border-color: #656b54;
+  transform: scale(1.02);
+}
+
+.spectrum-swatch {
+  width: 48px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 6px;
+}
+
+.spectrum-tile-number {
+  font-size: 12px;
+  color: #858579;
+}
+
+.spectrum-tile-handle {
+  margin-left: auto;
+  color: #999a8e;
+  font-size: 18px;
+}
+
+.spectrum-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.spectrum-feedback {
+  text-align: center;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 9px;
+  background: #f2f2ed;
+  color: #505345;
+  line-height: 1.6;
+}
+
+.spectrum-feedback strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.spectrum-final-score {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 25px 0;
+}
+
+.spectrum-final-score strong {
+  font-size: 42px;
+  color: #656b54;
+}
+
+@media (max-width: 600px) {
+  .spectrum-game {
+    padding: 18px;
+  }
+
+  .spectrum-swatch {
+    width: 42px;
+    height: 34px;
+  }
+
+  .spectrum-tile {
+    padding: 8px 10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1275,16 +1511,86 @@ footer {
   </div>
 </section>
 
-  <section id="spectrumScreen" class="screen">
-    <div class="intro">
-      <h1>Spectrum Sort</h1>
-      <p>Arrange colors to create a smooth spectrum.</p>
+<section id="spectrumScreen" class="screen">
+  <div class="section-heading">
+    <h2>Spectrum Sort</h2>
+    <p>Put the colors in order, from lightest to darkest.</p>
+  </div>
+
+  <div class="spectrum-game">
+    <div class="spectrum-top">
+      <div>
+        <span class="spectrum-label">PERSONAL BEST</span>
+        <strong id="spectrumBest">0</strong>
+      </div>
+      <div>
+        <span class="spectrum-label">CURRENT SCORE</span>
+        <strong id="spectrumScore">0</strong>
+      </div>
     </div>
-    <div class="game-placeholder">
-      <h2>Spectrum Sort</h2>
-      <p>Put your color organization skills to work.</p>
+
+    <div id="spectrumStart" class="spectrum-start">
+      <div class="spectrum-decoration">▰ ▰ ▰ ▰ ▰</div>
+      <h3>Can you find the perfect order?</h3>
+      <p>Arrange the colors from lightest to darkest. Drag and drop the tiles to change their positions.</p>
+
+      <label for="spectrumDifficulty">Choose your difficulty</label>
+      <select id="spectrumDifficulty">
+        <option value="easy">Beginner · 5 colors</option>
+        <option value="medium">Intermediate · 7 colors</option>
+        <option value="hard">Advanced · 9 colors</option>
+      </select>
+
+      <button id="spectrumStartButton" class="spectrum-button">
+        Start Game
+      </button>
     </div>
-  </section>
+
+    <div id="spectrumPlay" hidden>
+      <div class="spectrum-stats">
+        <div><span>ROUND</span><strong id="spectrumRound">1</strong></div>
+        <div><span>COLORS</span><strong id="spectrumCount">5</strong></div>
+      </div>
+
+      <p class="spectrum-instruction">
+        Drag the color tiles into order, from lightest to darkest.
+      </p>
+
+      <div id="spectrumTiles" class="spectrum-tiles"></div>
+
+      <div class="spectrum-actions">
+        <button id="spectrumCheck" class="spectrum-button">
+          Check My Order
+        </button>
+        <button id="spectrumShuffle" class="spectrum-secondary">
+          Shuffle Again
+        </button>
+      </div>
+
+      <div id="spectrumFeedback" class="spectrum-feedback" hidden></div>
+    </div>
+
+    <div id="spectrumResults" class="spectrum-results" hidden>
+      <div class="spectrum-decoration">✦ ✦ ✦</div>
+      <h3 id="spectrumResultTitle">Spectrum complete!</h3>
+      <p id="spectrumResultMessage"></p>
+
+      <div class="spectrum-final-score">
+        <span>YOUR SCORE</span>
+        <strong id="spectrumFinalScore">0</strong>
+      </div>
+
+      <p id="spectrumResultBest"></p>
+
+      <button id="spectrumReplay" class="spectrum-button">
+        Play Again
+      </button>
+      <button id="spectrumHome" class="spectrum-secondary">
+        Back to Difficulty
+      </button>
+    </div>
+  </div>
+</section>
 
   <section id="guessScreen" class="screen">
     <div class="intro">
@@ -2421,6 +2727,227 @@ document.getElementById("memoryHome").addEventListener("click", () => {
 memoryDifficulty.addEventListener("change", memoryUpdateBest);
 
 memoryUpdateBest();
+  // SPECTRUM SORT GAME
+
+const spectrumPalettes = {
+  easy: [
+    "#F4E8D8", "#D9BFA6", "#B9947C", "#8A6858", "#49372F"
+  ],
+  medium: [
+    "#F1E5DC", "#DCC4B4", "#C5A18D", "#AA806C",
+    "#8C6256", "#69483F", "#392A28"
+  ],
+  hard: [
+    "#F2E8DF", "#E2CFC2", "#D3B9A9", "#C4A494",
+    "#B18C7C", "#9C776A", "#806257", "#634A43", "#3E302C"
+  ]
+};
+
+const spectrumTiles = document.getElementById("spectrumTiles");
+const spectrumDifficulty = document.getElementById("spectrumDifficulty");
+
+let spectrumCurrentColors = [];
+let spectrumCorrectColors = [];
+let spectrumScoreValue = 0;
+let spectrumDragging = null;
+
+function spectrumBestKey() {
+  return "paletteStudioSpectrumBest_" + spectrumDifficulty.value;
+}
+
+function spectrumUpdateBest() {
+  const best = Number(localStorage.getItem(spectrumBestKey())) || 0;
+  document.getElementById("spectrumBest").textContent = best;
+}
+
+function spectrumShuffle(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function spectrumStartGame() {
+  spectrumCorrectColors = [...spectrumPalettes[spectrumDifficulty.value]];
+  spectrumCurrentColors = spectrumShuffle(spectrumCorrectColors);
+
+  // Ensure the starting order isn't already correct.
+  while (
+    spectrumCurrentColors.every(
+      (color, index) => color === spectrumCorrectColors[index]
+    )
+  ) {
+    spectrumCurrentColors = spectrumShuffle(spectrumCorrectColors);
+  }
+
+  spectrumScoreValue = 0;
+
+  document.getElementById("spectrumScore").textContent = "0";
+  document.getElementById("spectrumCount").textContent =
+    spectrumCorrectColors.length;
+
+  document.getElementById("spectrumStart").hidden = true;
+  document.getElementById("spectrumResults").hidden = true;
+  document.getElementById("spectrumPlay").hidden = false;
+  document.getElementById("spectrumFeedback").hidden = true;
+
+  spectrumRenderTiles();
+  spectrumUpdateBest();
+}
+
+function spectrumRenderTiles() {
+  spectrumTiles.innerHTML = "";
+
+  spectrumCurrentColors.forEach((color, index) => {
+    const tile = document.createElement("div");
+    tile.className = "spectrum-tile";
+    tile.draggable = true;
+    tile.dataset.index = index;
+
+    const swatch = document.createElement("div");
+    swatch.className = "spectrum-swatch";
+    swatch.style.backgroundColor = color;
+
+    const number = document.createElement("span");
+    number.className = "spectrum-tile-number";
+    number.textContent = "Color " + (index + 1);
+
+    const handle = document.createElement("span");
+    handle.className = "spectrum-tile-handle";
+    handle.textContent = "⠿";
+
+    tile.append(swatch, number, handle);
+
+    tile.addEventListener("dragstart", () => {
+      spectrumDragging = index;
+      tile.classList.add("dragging");
+    });
+
+    tile.addEventListener("dragend", () => {
+      tile.classList.remove("dragging");
+      document.querySelectorAll(".spectrum-tile").forEach(item => {
+        item.classList.remove("drag-over");
+      });
+    });
+
+    tile.addEventListener("dragover", event => {
+      event.preventDefault();
+      tile.classList.add("drag-over");
+    });
+
+    tile.addEventListener("dragleave", () => {
+      tile.classList.remove("drag-over");
+    });
+
+    tile.addEventListener("drop", event => {
+      event.preventDefault();
+
+      const targetIndex = Number(tile.dataset.index);
+
+      if (spectrumDragging !== null && spectrumDragging !== targetIndex) {
+        const movedColor = spectrumCurrentColors.splice(
+          spectrumDragging, 1
+        )[0];
+
+        spectrumCurrentColors.splice(targetIndex, 0, movedColor);
+        spectrumRenderTiles();
+        document.getElementById("spectrumFeedback").hidden = true;
+      }
+
+      spectrumDragging = null;
+    });
+
+    spectrumTiles.appendChild(tile);
+  });
+}
+
+function spectrumCheckOrder() {
+  const correctPositions = spectrumCurrentColors.filter(
+    (color, index) => color === spectrumCorrectColors[index]
+  ).length;
+
+  const total = spectrumCorrectColors.length;
+
+  spectrumScoreValue = Math.round((correctPositions / total) * 1000);
+
+  document.getElementById("spectrumScore").textContent =
+    spectrumScoreValue;
+
+  const feedback = document.getElementById("spectrumFeedback");
+  feedback.hidden = false;
+
+  if (correctPositions === total) {
+    feedback.innerHTML =
+      "<strong>Perfect spectrum!</strong>You got every color in the correct position.";
+    spectrumFinishGame();
+  } else {
+    feedback.innerHTML =
+      "<strong>" + correctPositions + " out of " + total +
+      " colors are in the right position.</strong>Keep rearranging and try again!";
+  }
+}
+
+function spectrumFinishGame() {
+  const oldBest = Number(localStorage.getItem(spectrumBestKey())) || 0;
+  const isNewBest = spectrumScoreValue > oldBest;
+
+  if (isNewBest) {
+    localStorage.setItem(spectrumBestKey(), spectrumScoreValue);
+  }
+
+  document.getElementById("spectrumResultTitle").textContent =
+    isNewBest ? "New personal best!" : "Perfect spectrum!";
+
+  document.getElementById("spectrumResultMessage").textContent =
+    "You arranged all " + spectrumCorrectColors.length +
+    " colors correctly!";
+
+  document.getElementById("spectrumFinalScore").textContent =
+    spectrumScoreValue;
+
+  document.getElementById("spectrumResultBest").textContent =
+    isNewBest
+      ? "You set a new personal record!"
+      : "Your personal best is " + Math.max(oldBest, spectrumScoreValue) + ".";
+
+  document.getElementById("spectrumBest").textContent =
+    Math.max(oldBest, spectrumScoreValue);
+
+  document.getElementById("spectrumPlay").hidden = true;
+  document.getElementById("spectrumResults").hidden = false;
+}
+
+document.getElementById("spectrumStartButton")
+  .addEventListener("click", spectrumStartGame);
+
+document.getElementById("spectrumCheck")
+  .addEventListener("click", spectrumCheckOrder);
+
+document.getElementById("spectrumShuffle")
+  .addEventListener("click", () => {
+    spectrumCurrentColors = spectrumShuffle(spectrumCurrentColors);
+    spectrumRenderTiles();
+    document.getElementById("spectrumFeedback").hidden = true;
+  });
+
+document.getElementById("spectrumReplay")
+  .addEventListener("click", spectrumStartGame);
+
+document.getElementById("spectrumHome")
+  .addEventListener("click", () => {
+    document.getElementById("spectrumResults").hidden = true;
+    document.getElementById("spectrumPlay").hidden = true;
+    document.getElementById("spectrumStart").hidden = false;
+    spectrumUpdateBest();
+  });
+
+spectrumDifficulty.addEventListener("change", spectrumUpdateBest);
+
+spectrumUpdateBest();
 // Main navigation
 document.querySelectorAll(".nav-tab").forEach(button => {
   button.addEventListener("click", () => {
