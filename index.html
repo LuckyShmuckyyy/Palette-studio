@@ -78,6 +78,7 @@ h2 {
   position: relative;
   cursor: crosshair;
   background: conic-gradient(
+    from 0deg,
     #ff0000, #ffff00, #00ff00, #00ffff,
     #0000ff, #ff00ff, #ff0000
   );
@@ -131,6 +132,22 @@ input[type="range"] {
   border: 2px solid #333;
 }
 .value-range { accent-color: #555; }
+  #chroma,
+#value {
+  appearance: none;
+  height: 8px;
+  border-radius: 10px;
+}
+
+#chroma::-webkit-slider-thumb,
+#value::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #333;
+}
 .hex-row {
   display: flex;
   gap: 8px;
@@ -456,36 +473,53 @@ function hexToHsv(hex) {
 }
 
 function updateWheelPointer() {
-  const radius = wheel.clientWidth / 2;
-  const distance = radius * saturation / 100;
+  const radius = wheel.clientWidth / 2 - 10;
   const angle = (hue - 90) * Math.PI / 180;
 
-  pointer.style.left = (radius + Math.cos(angle)*distance) + "px";
-  pointer.style.top = (radius + Math.sin(angle)*distance) + "px";
+  pointer.style.left =
+    (wheel.clientWidth / 2 + Math.cos(angle) * radius) + "px";
+
+  pointer.style.top =
+    (wheel.clientHeight / 2 + Math.sin(angle) * radius) + "px";
 }
 
 function updateControls() {
   $("hue").value = hue;
   $("chroma").value = saturation;
   $("value").value = value;
+
   $("hueValue").textContent = hue + "°";
   $("chromaValue").textContent = saturation + "%";
   $("valueValue").textContent = value + "%";
 
-  $("hexInput").value = hsvToHex(hue,saturation,value);
+  const pureHue = hsvToHex(hue, 100, 100);
+  const currentColor = hsvToHex(hue, saturation, value);
+  const gray = hsvToHex(hue, 0, value);
+  const dark = "#000000";
+
+  $("hue").style.background =
+    "linear-gradient(to right, red, yellow, lime, cyan, blue, magenta, red)";
+
+  $("chroma").style.background =
+    `linear-gradient(to right, ${gray}, ${pureHue})`;
+
+  $("value").style.background =
+    `linear-gradient(to right, ${dark}, ${pureHue})`;
+
+  $("hexInput").value = currentColor;
+
   updateWheelPointer();
   renderPalette();
 }
 
 function setFromWheel(event) {
   const rect = wheel.getBoundingClientRect();
-  const x = event.clientX - rect.left - rect.width/2;
-  const y = event.clientY - rect.top - rect.height/2;
-  const radius = rect.width/2;
-  const distance = Math.min(Math.sqrt(x*x+y*y), radius);
 
-  hue = (Math.atan2(y,x)*180/Math.PI + 90 + 360) % 360;
-  saturation = Math.round(distance/radius*100);
+  const x = event.clientX - rect.left - rect.width / 2;
+  const y = event.clientY - rect.top - rect.height / 2;
+
+  hue = (Math.atan2(y, x) * 180 / Math.PI + 90 + 360) % 360;
+
   updateControls();
 }
 
