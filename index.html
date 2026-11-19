@@ -775,7 +775,210 @@ footer {
     font-size: 20px;
   }
 }
+/* PALETTE MEMORY */
 
+.palette-memory {
+  max-width: 760px;
+  margin: 25px auto;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e8e7e1;
+  border-radius: 16px;
+}
+
+.memory-top {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e7e1;
+}
+
+.memory-top div,
+.memory-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.memory-label,
+.memory-stats span,
+.memory-final-score span {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #858579;
+}
+
+.memory-top strong {
+  font-size: 24px;
+  color: #45483b;
+}
+
+.memory-start,
+.memory-results {
+  text-align: center;
+  padding: 35px 10px;
+}
+
+.memory-decoration {
+  color: #9a9c82;
+  letter-spacing: 8px;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.memory-start h3,
+.memory-results h3 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.memory-start p,
+.memory-results p {
+  color: #77786e;
+  margin-bottom: 22px;
+}
+
+.memory-start label {
+  display: block;
+  margin: 20px 0 8px;
+  font-size: 13px;
+  color: #68695f;
+}
+
+#memoryDifficulty {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 20px;
+  padding: 12px;
+  border: 1px solid #deded5;
+  border-radius: 8px;
+  background: #fafaf7;
+  color: #45483b;
+  font: inherit;
+}
+
+.memory-button,
+.memory-secondary {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.memory-button {
+  background: #656b54;
+  color: white;
+}
+
+.memory-secondary {
+  background: #efefe9;
+  color: #505345;
+  margin-top: 18px;
+}
+
+.memory-button:hover,
+.memory-secondary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.memory-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin: 10px 0 22px;
+  text-align: center;
+}
+
+.memory-stats strong {
+  font-size: 19px;
+  color: #45483b;
+}
+
+.memory-instruction {
+  text-align: center;
+  color: #77786e;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.memory-card {
+  aspect-ratio: 1;
+  border: 1px solid #e5e4dc;
+  border-radius: 10px;
+  background: #e9e9e1;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.memory-card:hover:not(:disabled) {
+  transform: scale(1.03);
+}
+
+.memory-card::after {
+  content: "?";
+  color: #858775;
+  font-size: 25px;
+  font-weight: 500;
+}
+
+.memory-card.revealed::after,
+.memory-card.matched::after {
+  content: "";
+}
+
+.memory-card.revealed,
+.memory-card.matched {
+  border-color: transparent;
+}
+
+.memory-card.matched {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.memory-card:disabled {
+  cursor: default;
+}
+
+.memory-final-score {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 25px 0;
+}
+
+.memory-final-score strong {
+  font-size: 42px;
+  color: #656b54;
+}
+
+@media (max-width: 600px) {
+  .palette-memory {
+    padding: 18px;
+  }
+
+  .memory-grid {
+    gap: 8px;
+  }
+
+  .memory-card::after {
+    font-size: 20px;
+  }
+}
 </style>
 </head>
 <body>
@@ -1010,16 +1213,67 @@ footer {
 </section>
 
 
-  <section id="memoryScreen" class="screen">
-    <div class="intro">
-      <h1>Palette Memory</h1>
-      <p>Remember the colors and recreate the sequence.</p>
+<section id="memoryScreen" class="screen">
+  <div class="section-heading">
+    <h2>Palette Memory</h2>
+    <p>Find the matching colors. How well can you remember?</p>
+  </div>
+
+  <div class="palette-memory">
+    <div class="memory-top">
+      <div>
+        <span class="memory-label">PERSONAL BEST</span>
+        <strong id="memoryBest">0</strong>
+      </div>
+      <div>
+        <span class="memory-label">CURRENT SCORE</span>
+        <strong id="memoryScore">0</strong>
+      </div>
     </div>
-    <div class="game-placeholder">
-      <h2>Palette Memory</h2>
-      <p>A color memory challenge is coming soon!</p>
+
+    <div id="memoryStart" class="memory-start">
+      <div class="memory-decoration">● ● ● ●</div>
+      <h3>Ready to test your memory?</h3>
+      <p>Flip the cards to find every matching color pair.</p>
+
+      <label for="memoryDifficulty">Choose your difficulty</label>
+      <select id="memoryDifficulty">
+        <option value="easy">Beginner · 6 pairs</option>
+        <option value="medium">Intermediate · 8 pairs</option>
+        <option value="hard">Advanced · 10 pairs</option>
+      </select>
+
+      <button id="memoryStartButton" class="memory-button">
+        Start Game
+      </button>
     </div>
-  </section>
+
+    <div id="memoryPlay" class="memory-play" hidden>
+      <div class="memory-stats">
+        <div><span>TIME</span><strong id="memoryTime">0:00</strong></div>
+        <div><span>MOVES</span><strong id="memoryMoves">0</strong></div>
+        <div><span>PAIRS</span><strong id="memoryPairs">0 / 6</strong></div>
+      </div>
+
+      <p class="memory-instruction">Find two cards with the same color.</p>
+      <div id="memoryGrid" class="memory-grid"></div>
+      <button id="memoryRestart" class="memory-secondary">Restart Game</button>
+    </div>
+
+    <div id="memoryResults" class="memory-results" hidden>
+      <div class="memory-decoration">✦ ✦ ✦</div>
+      <h3 id="memoryResultTitle">Palette complete!</h3>
+      <p id="memoryResultMessage"></p>
+      <div class="memory-final-score">
+        <span>YOUR SCORE</span>
+        <strong id="memoryFinalScore">0</strong>
+      </div>
+      <p id="memoryResultBest"></p>
+      <button id="memoryReplay" class="memory-button">Play Again</button>
+      <button id="memoryHome" class="memory-secondary">Back to Difficulty</button>
+    </div>
+  </div>
+</section>
 
   <section id="spectrumScreen" class="screen">
     <div class="intro">
@@ -1940,7 +2194,233 @@ $("quizDifficulty").addEventListener("change", () => {
 });
 
 quizUpdateBest();
+// PALETTE MEMORY GAME
 
+const memoryColors = [
+  "#D98C78", "#7D91A8", "#D6B86A", "#84977B",
+  "#A78DAF", "#D18EAA", "#78A6A1", "#C58F5D",
+  "#8C8278", "#B5A5D0"
+];
+
+const memoryStart = document.getElementById("memoryStart");
+const memoryPlay = document.getElementById("memoryPlay");
+const memoryResults = document.getElementById("memoryResults");
+const memoryGrid = document.getElementById("memoryGrid");
+const memoryDifficulty = document.getElementById("memoryDifficulty");
+
+let memoryDeck = [];
+let memoryFlipped = [];
+let memoryMatched = 0;
+let memoryMoves = 0;
+let memorySeconds = 0;
+let memoryTimer = null;
+let memoryLocked = false;
+let memoryScoreValue = 0;
+
+function memoryShuffle(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function memoryPairCount() {
+  const difficulty = memoryDifficulty.value;
+
+  if (difficulty === "easy") return 6;
+  if (difficulty === "medium") return 8;
+  return 10;
+}
+
+function memoryBestKey() {
+  return "paletteStudioMemoryBest_" + memoryDifficulty.value;
+}
+
+function memoryUpdateBest() {
+  const best = Number(localStorage.getItem(memoryBestKey())) || 0;
+  document.getElementById("memoryBest").textContent = best;
+}
+
+function memoryFormatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remaining = seconds % 60;
+  return minutes + ":" + String(remaining).padStart(2, "0");
+}
+
+function memoryStartTimer() {
+  clearInterval(memoryTimer);
+
+  memoryTimer = setInterval(() => {
+    memorySeconds++;
+    document.getElementById("memoryTime").textContent =
+      memoryFormatTime(memorySeconds);
+  }, 1000);
+}
+
+function memoryStartGame() {
+  clearInterval(memoryTimer);
+
+  const pairCount = memoryPairCount();
+  const selectedColors = memoryShuffle(memoryColors).slice(0, pairCount);
+
+  memoryDeck = memoryShuffle([
+    ...selectedColors,
+    ...selectedColors
+  ]);
+
+  memoryFlipped = [];
+  memoryMatched = 0;
+  memoryMoves = 0;
+  memorySeconds = 0;
+  memoryScoreValue = 0;
+  memoryLocked = false;
+
+  memoryStart.hidden = true;
+  memoryResults.hidden = true;
+  memoryPlay.hidden = false;
+
+  document.getElementById("memoryScore").textContent = "0";
+  document.getElementById("memoryMoves").textContent = "0";
+  document.getElementById("memoryPairs").textContent = "0 / " + pairCount;
+  document.getElementById("memoryTime").textContent = "0:00";
+
+  memoryGrid.innerHTML = "";
+
+  memoryDeck.forEach((color, index) => {
+    const card = document.createElement("button");
+    card.className = "memory-card";
+    card.type = "button";
+    card.setAttribute("aria-label", "Hidden color card");
+    card.dataset.color = color;
+    card.dataset.index = index;
+
+    card.addEventListener("click", () => memoryFlipCard(card));
+
+    memoryGrid.appendChild(card);
+  });
+
+  memoryUpdateBest();
+  memoryStartTimer();
+}
+
+function memoryFlipCard(card) {
+  if (
+    memoryLocked ||
+    card.classList.contains("revealed") ||
+    card.classList.contains("matched")
+  ) {
+    return;
+  }
+
+  card.classList.add("revealed");
+  card.style.backgroundColor = card.dataset.color;
+  card.setAttribute("aria-label", "Revealed color");
+
+  memoryFlipped.push(card);
+
+  if (memoryFlipped.length === 2) {
+    memoryMoves++;
+    document.getElementById("memoryMoves").textContent = memoryMoves;
+
+    const [first, second] = memoryFlipped;
+
+    if (first.dataset.color === second.dataset.color) {
+      first.classList.add("matched");
+      second.classList.add("matched");
+
+      first.disabled = true;
+      second.disabled = true;
+
+      memoryMatched++;
+      memoryFlipped = [];
+
+      document.getElementById("memoryPairs").textContent =
+        memoryMatched + " / " + memoryPairCount();
+
+      if (memoryMatched === memoryPairCount()) {
+        memoryFinishGame();
+      }
+    } else {
+      memoryLocked = true;
+
+      setTimeout(() => {
+        first.classList.remove("revealed");
+        second.classList.remove("revealed");
+
+        first.style.backgroundColor = "";
+        second.style.backgroundColor = "";
+
+        first.setAttribute("aria-label", "Hidden color card");
+        second.setAttribute("aria-label", "Hidden color card");
+
+        memoryFlipped = [];
+        memoryLocked = false;
+      }, 850);
+    }
+  }
+}
+
+function memoryFinishGame() {
+  clearInterval(memoryTimer);
+
+  const pairCount = memoryPairCount();
+
+  // Reward completed pairs and subtract points for extra moves and time.
+  const extraMoves = Math.max(0, memoryMoves - pairCount);
+  memoryScoreValue = Math.max(
+    0,
+    pairCount * 100 - extraMoves * 20 - memorySeconds * 2
+  );
+
+  document.getElementById("memoryScore").textContent = memoryScoreValue;
+  document.getElementById("memoryFinalScore").textContent = memoryScoreValue;
+
+  const oldBest = Number(localStorage.getItem(memoryBestKey())) || 0;
+  const isNewBest = memoryScoreValue > oldBest;
+
+  if (isNewBest) {
+    localStorage.setItem(memoryBestKey(), memoryScoreValue);
+  }
+
+  document.getElementById("memoryResultTitle").textContent =
+    isNewBest ? "New personal best!" : "Palette complete!";
+
+  document.getElementById("memoryResultMessage").textContent =
+    "You found all " + pairCount + " pairs in " +
+    memoryFormatTime(memorySeconds) + " and " + memoryMoves + " moves.";
+
+  document.getElementById("memoryResultBest").textContent =
+    isNewBest
+      ? "You set a new record for this difficulty!"
+      : "Your personal best is " +
+        (isNewBest ? memoryScoreValue : oldBest) + ".";
+
+  document.getElementById("memoryBest").textContent =
+    Math.max(oldBest, memoryScoreValue);
+
+  memoryPlay.hidden = true;
+  memoryResults.hidden = false;
+}
+
+document.getElementById("memoryStartButton").addEventListener("click", memoryStartGame);
+document.getElementById("memoryRestart").addEventListener("click", memoryStartGame);
+document.getElementById("memoryReplay").addEventListener("click", memoryStartGame);
+
+document.getElementById("memoryHome").addEventListener("click", () => {
+  clearInterval(memoryTimer);
+  memoryResults.hidden = true;
+  memoryPlay.hidden = true;
+  memoryStart.hidden = false;
+  memoryUpdateBest();
+});
+
+memoryDifficulty.addEventListener("change", memoryUpdateBest);
+
+memoryUpdateBest();
 // Main navigation
 document.querySelectorAll(".nav-tab").forEach(button => {
   button.addEventListener("click", () => {
