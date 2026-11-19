@@ -1215,6 +1215,252 @@ footer {
     padding: 8px 10px;
   }
 }
+  /* GUESS THE PALETTE */
+
+.guess-game {
+  max-width: 760px;
+  margin: 25px auto;
+  padding: 28px;
+  background: #fff;
+  border: 1px solid #e8e7e1;
+  border-radius: 16px;
+}
+
+.guess-top {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e8e7e1;
+}
+
+.guess-top div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.guess-label,
+.guess-question-label,
+.guess-final-score span {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  color: #858579;
+}
+
+.guess-top strong {
+  font-size: 24px;
+  color: #45483b;
+}
+
+.guess-start,
+.guess-results {
+  text-align: center;
+  padding: 35px 10px;
+}
+
+.guess-decoration {
+  color: #9a9c82;
+  letter-spacing: 7px;
+  font-size: 25px;
+  margin-bottom: 15px;
+}
+
+.guess-start h3,
+.guess-results h3 {
+  font-size: 23px;
+  margin-bottom: 8px;
+}
+
+.guess-start p,
+.guess-results p {
+  color: #77786e;
+  margin-bottom: 22px;
+  line-height: 1.6;
+}
+
+.guess-start label {
+  display: block;
+  margin: 20px 0 8px;
+  font-size: 13px;
+  color: #68695f;
+}
+
+#guessDifficulty {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto 20px;
+  padding: 12px;
+  border: 1px solid #deded5;
+  border-radius: 8px;
+  background: #fafaf7;
+  color: #45483b;
+  font: inherit;
+}
+
+.guess-button,
+.guess-secondary {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font: inherit;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.guess-button {
+  background: #656b54;
+  color: white;
+}
+
+.guess-secondary {
+  background: #efefe9;
+  color: #505345;
+  margin-top: 12px;
+}
+
+.guess-button:hover,
+.guess-secondary:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.guess-progress {
+  display: flex;
+  justify-content: space-between;
+  color: #77786e;
+  font-size: 12px;
+  margin: 20px 0 9px;
+}
+
+.guess-progress-track {
+  height: 6px;
+  background: #efefe9;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+
+#guessProgressBar {
+  width: 10%;
+  height: 100%;
+  background: #858b70;
+  transition: width 0.3s;
+}
+
+.guess-swatches {
+  display: flex;
+  gap: 8px;
+  max-width: 520px;
+  margin: 0 auto 28px;
+}
+
+.guess-swatch {
+  flex: 1;
+  min-width: 0;
+  height: 105px;
+  border-radius: 9px;
+}
+
+.guess-question-area {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.guess-question-area h3 {
+  font-size: 21px;
+  margin: 10px 0;
+}
+
+.guess-question-area p {
+  color: #77786e;
+  font-size: 13px;
+}
+
+.guess-answers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 540px;
+  margin: 0 auto 20px;
+}
+
+.guess-answer {
+  padding: 15px 10px;
+  background: #fafaf7;
+  border: 1px solid #e5e4dc;
+  border-radius: 9px;
+  color: #505345;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.guess-answer:hover:not(:disabled) {
+  border-color: #92977f;
+  background: #f2f2ed;
+}
+
+.guess-answer.correct {
+  border-color: #84977b;
+  background: #edf2e9;
+}
+
+.guess-answer.incorrect {
+  border-color: #c78c7c;
+  background: #f8eeeb;
+}
+
+.guess-answer:disabled {
+  cursor: default;
+  opacity: 0.9;
+}
+
+.guess-feedback {
+  padding: 16px;
+  margin: 18px auto;
+  max-width: 540px;
+  background: #f2f2ed;
+  border-radius: 9px;
+  color: #505345;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.guess-feedback strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.guess-final-score {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 25px 0;
+}
+
+.guess-final-score strong {
+  font-size: 42px;
+  color: #656b54;
+}
+
+@media (max-width: 600px) {
+  .guess-game {
+    padding: 18px;
+  }
+
+  .guess-swatches {
+    gap: 5px;
+  }
+
+  .guess-swatch {
+    height: 75px;
+  }
+
+  .guess-answers {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -1592,16 +1838,92 @@ footer {
   </div>
 </section>
 
-  <section id="guessScreen" class="screen">
-    <div class="intro">
-      <h1>Guess the Palette</h1>
-      <p>Use clues to recreate a mystery palette.</p>
+<section id="guessScreen" class="screen">
+  <div class="section-heading">
+    <h2>Guess the Palette</h2>
+    <p>Can you identify the colors behind each palette?</p>
+  </div>
+
+  <div class="guess-game">
+    <div class="guess-top">
+      <div>
+        <span class="guess-label">PERSONAL BEST</span>
+        <strong id="guessBest">0</strong>
+      </div>
+      <div>
+        <span class="guess-label">CURRENT SCORE</span>
+        <strong id="guessScore">0</strong>
+      </div>
     </div>
-    <div class="game-placeholder">
-      <h2>Guess the Palette</h2>
-      <p>Can you figure out the hidden color combination?</p>
+
+    <div id="guessStart" class="guess-start">
+      <div class="guess-decoration">◒ ◓ ◑ ◐</div>
+      <h3>What's in the palette?</h3>
+      <p>Study the colors, read the clue, and guess the correct color scheme.</p>
+
+      <label for="guessDifficulty">Choose your difficulty</label>
+      <select id="guessDifficulty">
+        <option value="easy">Beginner</option>
+        <option value="medium">Intermediate</option>
+        <option value="hard">Advanced</option>
+      </select>
+
+      <button id="guessStartButton" class="guess-button">
+        Start Game
+      </button>
     </div>
-  </section>
+
+    <div id="guessPlay" hidden>
+      <div class="guess-progress">
+        <span id="guessProgressText">Question 1 of 10</span>
+        <span id="guessStreak">Streak: 0</span>
+      </div>
+
+      <div class="guess-progress-track">
+        <div id="guessProgressBar"></div>
+      </div>
+
+      <div id="guessSwatches" class="guess-swatches"></div>
+
+      <div class="guess-question-area">
+        <span class="guess-question-label">YOUR CLUE</span>
+        <h3 id="guessQuestion">What type of palette is this?</h3>
+        <p id="guessInstruction">Choose the best answer below.</p>
+      </div>
+
+      <div id="guessAnswers" class="guess-answers"></div>
+
+      <div id="guessFeedback" class="guess-feedback" hidden>
+        <strong id="guessFeedbackTitle"></strong>
+        <p id="guessExplanation"></p>
+      </div>
+
+      <button id="guessNext" class="guess-button" hidden>
+        Next Question
+      </button>
+    </div>
+
+    <div id="guessResults" class="guess-results" hidden>
+      <div class="guess-decoration">✦ ✦ ✦</div>
+      <h3 id="guessResultTitle">Round complete!</h3>
+      <p id="guessResultMessage"></p>
+
+      <div class="guess-final-score">
+        <span>YOUR SCORE</span>
+        <strong id="guessFinalScore">0</strong>
+      </div>
+
+      <p id="guessResultBest"></p>
+
+      <button id="guessReplay" class="guess-button">
+        Play Again
+      </button>
+      <button id="guessHome" class="guess-secondary">
+        Back to Difficulty
+      </button>
+    </div>
+  </div>
+</section>
 
 </main>
 
@@ -2948,6 +3270,416 @@ document.getElementById("spectrumHome")
 spectrumDifficulty.addEventListener("change", spectrumUpdateBest);
 
 spectrumUpdateBest();
+  // GUESS THE PALETTE GAME
+
+const guessBank = {
+  easy: [
+    {
+      q: "Which color family best describes this palette?",
+      colors: ["#E6A078", "#D86B55", "#F2C078", "#A94D3C"],
+      o: ["Warm colors", "Cool colors", "Neutral colors", "Pastel colors"],
+      a: 0,
+      e: "Reds, oranges, and yellows are considered warm colors."
+    },
+    {
+      q: "What color relationship is shown here?",
+      colors: ["#E65C5C", "#5C8EE6", "#E6C45C"],
+      o: ["Monochromatic", "Complementary", "Triadic", "Analogous"],
+      a: 2,
+      e: "These colors are spaced evenly around the traditional color wheel."
+    },
+    {
+      q: "What is the main characteristic of this palette?",
+      colors: ["#B9A1D1", "#C9B4DF", "#DCCBEA", "#E9DDF2"],
+      o: ["Dark shades", "Pastel tints", "Neon colors", "Earth tones"],
+      a: 1,
+      e: "These are light tints of purple, created by adding white."
+    },
+    {
+      q: "Which palette uses colors next to each other on the color wheel?",
+      colors: ["#E9A05D", "#E9C65D", "#DCE95D", "#B5E95D"],
+      o: ["Complementary", "Triadic", "Analogous", "Tetradic"],
+      a: 2,
+      e: "Analogous colors sit next to one another on the color wheel."
+    },
+    {
+      q: "What type of palette is this?",
+      colors: ["#E8D9C5", "#B7A48B", "#857461", "#4F453C"],
+      o: ["Neon", "Earth tones", "Cool colors", "Primary colors"],
+      a: 1,
+      e: "Earth tones are inspired by natural materials like soil, wood, and stone."
+    },
+    {
+      q: "Which color is the complementary color of blue on a traditional color wheel?",
+      colors: ["#E3A04B", "#52A9A4", "#9B79BD", "#A5B86C"],
+      o: ["Green", "Purple", "Orange", "Yellow"],
+      a: 2,
+      e: "Orange sits opposite blue on the traditional color wheel."
+    },
+    {
+      q: "What do these colors have in common?",
+      colors: ["#F3D8DC", "#EBC2D1", "#D9AFC6", "#C89BB8"],
+      o: ["They are all shades of red", "They are all tints of pink", "They are all primary colors", "They are all neutral"],
+      a: 1,
+      e: "These colors are light, softened versions of pink and purple."
+    },
+    {
+      q: "Which palette is most associated with a calm, cool feeling?",
+      colors: ["#80A9C5", "#A1C3D1", "#718DAA", "#B6D2D9"],
+      o: ["Warm palette", "Cool palette", "Neon palette", "Earth-tone palette"],
+      a: 1,
+      e: "Blues and blue-greens are generally considered cool colors."
+    },
+    {
+      q: "What kind of palette uses only one hue with different values?",
+      colors: ["#D9B7C4", "#B57F98", "#824D68", "#E9D5DD"],
+      o: ["Triadic", "Complementary", "Monochromatic", "Split complementary"],
+      a: 2,
+      e: "Monochromatic palettes use variations of a single hue."
+    },
+    {
+      q: "Which palette contains the traditional primary colors?",
+      colors: ["#E53935", "#FDD835", "#1E88E5"],
+      o: ["Red, yellow, blue", "Green, orange, purple", "Pink, teal, orange", "Black, white, gray"],
+      a: 0,
+      e: "In the traditional RYB color model, the primary colors are red, yellow, and blue."
+    }
+  ],
+
+  medium: [
+    {
+      q: "What color relationship is represented by these colors?",
+      colors: ["#E85D75", "#E8B85D", "#75E85D", "#5DE8B8"],
+      o: ["Monochromatic", "Tetradic", "Complementary", "Split complementary"],
+      a: 1,
+      e: "A tetradic palette uses four colors arranged as two complementary pairs."
+    },
+    {
+      q: "Which color scheme uses one base hue and two colors beside its complement?",
+      colors: ["#D85D62", "#5D9BD8", "#7D5DD8"],
+      o: ["Split complementary", "Analogous", "Monochromatic", "Triadic"],
+      a: 0,
+      e: "Split complementary palettes use a base hue and the two hues next to its complement."
+    },
+    {
+      q: "What makes this palette monochromatic?",
+      colors: ["#E5B8A8", "#CB8B79", "#A85F53", "#733B36"],
+      o: ["All colors are opposites", "All colors share one hue", "All colors are primary", "All colors are equally bright"],
+      a: 1,
+      e: "A monochromatic palette uses one hue with variations in lightness and saturation."
+    },
+    {
+      q: "Which color model is primarily used for screens?",
+      colors: ["#E94B3C", "#36C9B0", "#3E64D8"],
+      o: ["CMYK", "RYB", "RGB", "Grayscale"],
+      a: 2,
+      e: "RGB uses red, green, and blue light to create colors on digital screens."
+    },
+    {
+      q: "What is the name for a color's relative lightness or darkness?",
+      colors: ["#F0E6D2", "#B9A98C", "#786D5C", "#352F29"],
+      o: ["Hue", "Saturation", "Value", "Temperature"],
+      a: 2,
+      e: "Value describes how light or dark a color appears."
+    },
+    {
+      q: "What kind of contrast is strongest between these colors?",
+      colors: ["#F4D35E", "#253B76"],
+      o: ["Complementary contrast", "Monochromatic contrast", "Neutral contrast", "Analogous contrast"],
+      a: 0,
+      e: "Yellow and blue are far apart on the traditional color wheel, creating strong contrast."
+    },
+    {
+      q: "What happens when gray is added to a hue?",
+      colors: ["#E4A1A1", "#C58D91", "#A77D83", "#80656D"],
+      o: ["It becomes a tint", "It becomes a tone", "It becomes a primary color", "It becomes a pure hue"],
+      a: 1,
+      e: "Adding gray creates a tone, reducing the color's saturation."
+    },
+    {
+      q: "Which color scheme is built around three evenly spaced hues?",
+      colors: ["#E84D4D", "#4DE8A0", "#A04DE8"],
+      o: ["Analogous", "Triadic", "Complementary", "Monochromatic"],
+      a: 1,
+      e: "Triadic palettes use three colors evenly spaced around the color wheel."
+    },
+    {
+      q: "What is the main difference between RGB and CMYK?",
+      colors: ["#F03D43", "#36C7C1", "#F0D23D", "#292929"],
+      o: ["RGB is subtractive; CMYK is additive", "RGB is additive; CMYK is subtractive", "They are the same model", "Neither model uses primary colors"],
+      a: 1,
+      e: "RGB combines light, while CMYK uses inks that absorb light."
+    },
+    {
+      q: "What is color temperature used to describe?",
+      colors: ["#E77A4D", "#D6A15C", "#7799B8", "#527A9C"],
+      o: ["How bright a color is", "How saturated a color is", "Whether a color feels warm or cool", "How much gray it contains"],
+      a: 2,
+      e: "Color temperature describes the warm or cool appearance of a color."
+    }
+  ],
+
+  hard: [
+    {
+      q: "What phenomenon makes the same color appear different depending on surrounding colors?",
+      colors: ["#888888", "#888888", "#888888"],
+      o: ["Metamerism", "Simultaneous contrast", "Color constancy", "Color gamut"],
+      a: 1,
+      e: "Simultaneous contrast describes how surrounding colors influence how we perceive a color."
+    },
+    {
+      q: "What is metamerism?",
+      colors: ["#A7B8A2", "#A7B8A2", "#A7B8A2"],
+      o: ["A color appearing brighter next to black", "Different color samples matching under one light but not another", "A color becoming less saturated", "Colors blending together"],
+      a: 1,
+      e: "Metamerism occurs when different spectral compositions appear to match under one lighting condition but differ under another."
+    },
+    {
+      q: "What does a device's color gamut describe?",
+      colors: ["#E95B61", "#58BFA5", "#5674C9"],
+      o: ["Its maximum brightness", "The range of colors it can reproduce", "Its screen size", "Its color temperature"],
+      a: 1,
+      e: "A color gamut is the range of colors a device or color space can represent."
+    },
+    {
+      q: "Which color system describes hue, saturation, and lightness?",
+      colors: ["#D96A72", "#A66A9B", "#6A83B5"],
+      o: ["CMYK", "RGB", "HSL", "LAB"],
+      a: 2,
+      e: "HSL represents colors using hue, saturation, and lightness."
+    },
+    {
+      q: "What does relative luminance help measure?",
+      colors: ["#FFFFFF", "#777777", "#222222"],
+      o: ["Perceived brightness of a color", "Color temperature", "Hue angle", "Ink coverage"],
+      a: 0,
+      e: "Relative luminance estimates how much light a color reflects, using a weighted calculation of its RGB components."
+    },
+    {
+      q: "What is the minimum WCAG AA contrast ratio for normal-sized text?",
+      colors: ["#FFFFFF", "#555555"],
+      o: ["2:1", "3:1", "4.5:1", "7:1"],
+      a: 2,
+      e: "WCAG AA requires a contrast ratio of at least 4.5:1 for normal text."
+    },
+    {
+      q: "What is color constancy?",
+      colors: ["#B98C72", "#B98C72", "#B98C72"],
+      o: ["The ability to create new hues", "The tendency to perceive an object's color as relatively stable under different lighting", "The ability to see more colors", "A type of color mixing"],
+      a: 1,
+      e: "Color constancy helps us recognize an object's color despite changes in illumination."
+    },
+    {
+      q: "Which palette uses four hues arranged as two complementary pairs?",
+      colors: ["#E75B5B", "#5BE7E7", "#E7D35B", "#5B6FE7"],
+      o: ["Triadic", "Analogous", "Tetradic", "Monochromatic"],
+      a: 2,
+      e: "Tetradic palettes combine two pairs of complementary colors."
+    },
+    {
+      q: "What is the main purpose of a perceptually uniform color space?",
+      colors: ["#D95D5D", "#5D91D9", "#83B76D"],
+      o: ["To make every color equally bright", "To make numerical differences more closely reflect perceived differences", "To remove all color variation", "To limit colors to RGB"],
+      a: 1,
+      e: "Perceptually uniform spaces aim to make equal numerical changes correspond more closely to equal perceived color changes."
+    },
+    {
+      q: "Which colors are the primary components of the CMY subtractive color model?",
+      colors: ["#00FFFF", "#FF00FF", "#FFFF00"],
+      o: ["Red, green, blue", "Red, yellow, blue", "Cyan, magenta, yellow", "Orange, green, purple"],
+      a: 2,
+      e: "CMY stands for cyan, magenta, and yellow. Black is often added in printing, creating CMYK."
+    }
+  ]
+};
+
+let guessQuestions = [];
+let guessQuestionIndex = 0;
+let guessScoreValue = 0;
+let guessStreakValue = 0;
+let guessAnswered = false;
+
+const guessDifficulty = document.getElementById("guessDifficulty");
+
+function guessBestKey() {
+  return "paletteStudioGuessBest_" + guessDifficulty.value;
+}
+
+function guessUpdateBest() {
+  const best = Number(localStorage.getItem(guessBestKey())) || 0;
+  document.getElementById("guessBest").textContent = best;
+}
+
+function guessShuffle(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function guessStartGame() {
+  guessQuestions = guessShuffle(guessBank[guessDifficulty.value]).slice(0, 10);
+  guessQuestionIndex = 0;
+  guessScoreValue = 0;
+  guessStreakValue = 0;
+
+  document.getElementById("guessScore").textContent = "0";
+  document.getElementById("guessStreak").textContent = "Streak: 0";
+
+  document.getElementById("guessStart").hidden = true;
+  document.getElementById("guessResults").hidden = true;
+  document.getElementById("guessPlay").hidden = false;
+
+  guessUpdateBest();
+  guessShowQuestion();
+}
+
+function guessShowQuestion() {
+  const question = guessQuestions[guessQuestionIndex];
+  guessAnswered = false;
+
+  document.getElementById("guessProgressText").textContent =
+    "Question " + (guessQuestionIndex + 1) + " of 10";
+
+  document.getElementById("guessProgressBar").style.width =
+    ((guessQuestionIndex + 1) / 10 * 100) + "%";
+
+  document.getElementById("guessQuestion").textContent = question.q;
+  document.getElementById("guessInstruction").textContent =
+    "Choose the best answer below.";
+
+  const swatches = document.getElementById("guessSwatches");
+  swatches.innerHTML = "";
+
+  question.colors.forEach(color => {
+    const swatch = document.createElement("div");
+    swatch.className = "guess-swatch";
+    swatch.style.backgroundColor = color;
+    swatches.appendChild(swatch);
+  });
+
+  const answers = document.getElementById("guessAnswers");
+  answers.innerHTML = "";
+
+  question.o.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "guess-answer";
+    button.textContent = option;
+
+    button.addEventListener("click", () => guessAnswer(index));
+
+    answers.appendChild(button);
+  });
+
+  document.getElementById("guessFeedback").hidden = true;
+  document.getElementById("guessNext").hidden = true;
+}
+
+function guessAnswer(selectedIndex) {
+  if (guessAnswered) return;
+
+  guessAnswered = true;
+
+  const question = guessQuestions[guessQuestionIndex];
+  const buttons = document.querySelectorAll(".guess-answer");
+  const correct = selectedIndex === question.a;
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === question.a) {
+      button.classList.add("correct");
+    } else if (index === selectedIndex) {
+      button.classList.add("incorrect");
+    }
+  });
+
+  if (correct) {
+    guessScoreValue += 100;
+    guessStreakValue++;
+  } else {
+    guessStreakValue = 0;
+  }
+
+  document.getElementById("guessScore").textContent = guessScoreValue;
+  document.getElementById("guessStreak").textContent =
+    "Streak: " + guessStreakValue;
+
+  document.getElementById("guessFeedbackTitle").textContent =
+    correct ? "Correct!" : "Not quite!";
+
+  document.getElementById("guessExplanation").textContent =
+    question.e;
+
+  document.getElementById("guessFeedback").hidden = false;
+  document.getElementById("guessNext").hidden = false;
+
+  document.getElementById("guessNext").textContent =
+    guessQuestionIndex === 9 ? "See Results" : "Next Question";
+}
+
+function guessNextQuestion() {
+  guessQuestionIndex++;
+
+  if (guessQuestionIndex >= guessQuestions.length) {
+    guessFinishGame();
+  } else {
+    guessShowQuestion();
+  }
+}
+
+function guessFinishGame() {
+  const oldBest = Number(localStorage.getItem(guessBestKey())) || 0;
+  const isNewBest = guessScoreValue > oldBest;
+
+  if (isNewBest) {
+    localStorage.setItem(guessBestKey(), guessScoreValue);
+  }
+
+  document.getElementById("guessResultTitle").textContent =
+    isNewBest ? "New personal best!" : "Round complete!";
+
+  document.getElementById("guessResultMessage").textContent =
+    "You answered " + (guessScoreValue / 100) +
+    " out of 10 questions correctly.";
+
+  document.getElementById("guessFinalScore").textContent =
+    guessScoreValue;
+
+  document.getElementById("guessResultBest").textContent =
+    "Your personal best is " + Math.max(oldBest, guessScoreValue) + ".";
+
+  document.getElementById("guessBest").textContent =
+    Math.max(oldBest, guessScoreValue);
+
+  document.getElementById("guessPlay").hidden = true;
+  document.getElementById("guessResults").hidden = false;
+}
+
+document.getElementById("guessStartButton")
+  .addEventListener("click", guessStartGame);
+
+document.getElementById("guessNext")
+  .addEventListener("click", guessNextQuestion);
+
+document.getElementById("guessReplay")
+  .addEventListener("click", guessStartGame);
+
+document.getElementById("guessHome")
+  .addEventListener("click", () => {
+    document.getElementById("guessResults").hidden = true;
+    document.getElementById("guessPlay").hidden = true;
+    document.getElementById("guessStart").hidden = false;
+    guessUpdateBest();
+  });
+
+guessDifficulty.addEventListener("change", guessUpdateBest);
+
+guessUpdateBest();
 // Main navigation
 document.querySelectorAll(".nav-tab").forEach(button => {
   button.addEventListener("click", () => {
