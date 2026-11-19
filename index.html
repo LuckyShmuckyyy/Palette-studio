@@ -552,6 +552,230 @@ footer {
     height: 115px;
   }
 }
+  
+/* COLOR QUIZ GAME */
+
+.color-quiz {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 25px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.quiz-top div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.quiz-top strong {
+  font-size: 25px;
+}
+
+.quiz-start,
+.quiz-results {
+  text-align: center;
+  padding: 25px 10px;
+}
+
+.quiz-decoration {
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+  background: #eeece5;
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+.quiz-start h2,
+.quiz-results h2 {
+  margin-bottom: 10px;
+}
+
+.quiz-start > p,
+.quiz-results > p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.quiz-start label {
+  display: block;
+  margin: 25px 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#quizDifficulty {
+  width: 100%;
+  max-width: 300px;
+}
+
+.quiz-info {
+  margin: 15px 0;
+}
+
+.quiz-button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-top: 18px;
+  background: var(--ink);
+  color: white;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  cursor: pointer;
+}
+
+.quiz-button:hover {
+  background: #494943;
+}
+
+.quiz-button:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.quiz-secondary {
+  background: white;
+  color: var(--ink);
+}
+
+.quiz-progress-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--muted);
+  letter-spacing: .7px;
+}
+
+.quiz-progress {
+  height: 7px;
+  background: #eeece7;
+  border-radius: 10px;
+  margin: 12px 0 30px;
+  overflow: hidden;
+}
+
+#quizProgressBar {
+  height: 100%;
+  width: 10%;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+
+.quiz-question-area {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.quiz-question-area h2 {
+  font-size: 23px;
+  line-height: 1.4;
+  margin: 15px 0 8px;
+}
+
+.quiz-question-area p {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.quiz-color-sample {
+  width: 100%;
+  height: 125px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+
+.quiz-answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.quiz-answer {
+  min-height: 58px;
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  font-size: 13px;
+}
+
+.quiz-answer:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: #f5f3ef;
+}
+
+.quiz-answer.correct {
+  border-color: #67836b;
+  background: #edf4ed;
+}
+
+.quiz-answer.incorrect {
+  border-color: #b87979;
+  background: #f8eeee;
+}
+
+.quiz-answer:disabled {
+  cursor: default;
+  color: var(--ink);
+  opacity: 1;
+}
+
+.quiz-feedback {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 8px;
+  background: #f5f3ef;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.quiz-feedback p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.quiz-final-score {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.quiz-results {
+  padding-top: 35px;
+}
+
+@media (max-width: 600px) {
+  .color-quiz {
+    padding: 18px;
+  }
+
+  .quiz-answers {
+    grid-template-columns: 1fr;
+  }
+
+  .quiz-question-area h2 {
+    font-size: 20px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -710,16 +934,81 @@ footer {
 </div>
   </section>
 
-  <section id="quizScreen" class="screen">
-    <div class="intro">
-      <h1>Color Theory Quiz</h1>
-      <p>Put your color knowledge to the test.</p>
+
+<section id="quizScreen" class="screen">
+  <div class="intro">
+    <h1>Color Theory Quiz</h1>
+    <p>Put your color knowledge to the test.</p>
+  </div>
+
+  <div class="color-quiz">
+    <div class="quiz-top">
+      <div>
+        <span class="cm-label">PERSONAL BEST</span>
+        <strong id="quizBest">0</strong>
+      </div>
+      <div>
+        <span class="cm-label">CURRENT SCORE</span>
+        <strong id="quizScore">0</strong>
+      </div>
     </div>
-    <div class="game-placeholder">
-      <h2>Color Theory Quiz</h2>
-      <p>Test your knowledge of color relationships.</p>
+
+    <div id="quizStart" class="quiz-start">
+      <div class="quiz-decoration">Aa</div>
+      <h2>How well do you know color?</h2>
+      <p>Test your knowledge of color theory, relationships, and terminology.</p>
+
+      <label for="quizDifficulty">Choose your difficulty</label>
+      <select id="quizDifficulty">
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+
+      <p class="quiz-info">10 questions · 100 points each</p>
+      <button class="quiz-button" id="quizStartButton">Start Quiz</button>
     </div>
-  </section>
+
+    <div id="quizPlay" hidden>
+      <div class="quiz-progress-row">
+        <span id="quizProgressText">QUESTION 1 OF 10</span>
+        <span id="quizDifficultyText">BEGINNER</span>
+      </div>
+
+      <div class="quiz-progress">
+        <div id="quizProgressBar"></div>
+      </div>
+
+      <div class="quiz-question-area">
+        <div id="quizColorSample" class="quiz-color-sample" hidden></div>
+        <h2 id="quizQuestion">Question goes here</h2>
+        <p id="quizInstruction">Choose the correct answer.</p>
+      </div>
+
+      <div id="quizAnswers" class="quiz-answers"></div>
+
+      <div id="quizFeedback" class="quiz-feedback" aria-live="polite" hidden>
+        <strong id="quizFeedbackTitle"></strong>
+        <p id="quizExplanation"></p>
+      </div>
+
+      <button id="quizNext" class="quiz-button" hidden>
+        Next Question
+      </button>
+    </div>
+
+    <div id="quizResults" class="quiz-results" hidden>
+      <div class="quiz-decoration">✓</div>
+      <h2 id="quizResultTitle">Quiz Complete!</h2>
+      <div class="quiz-final-score" id="quizFinalScore">0/1000</div>
+      <p id="quizResultMessage"></p>
+      <p id="quizResultBest"></p>
+      <button id="quizReplay" class="quiz-button">Play Again</button>
+      <button id="quizHome" class="quiz-button quiz-secondary">Back to Quiz Setup</button>
+    </div>
+  </div>
+</section>
+
 
   <section id="memoryScreen" class="screen">
     <div class="intro">
@@ -1230,6 +1519,428 @@ document.getElementById("cmBest").textContent =
   localStorage.getItem("paletteStudioColorMatchBest") || 0;
 
 cmNewRound();
+  
+// COLOR QUIZ GAME
+
+const quizBank = {
+  beginner: [
+    {
+      q: "Which of these is a primary color in traditional RYB color theory?",
+      o: ["Blue", "Green", "Orange", "Purple"],
+      a: 0,
+      e: "Blue is one of the three traditional primary colors: red, yellow, and blue."
+    },
+    {
+      q: "What do we call colors located opposite each other on the color wheel?",
+      o: ["Analogous", "Complementary", "Monochromatic", "Neutral"],
+      a: 1,
+      e: "Complementary colors sit opposite each other on the color wheel and create strong contrast."
+    },
+    {
+      q: "What are analogous colors?",
+      o: ["Colors next to each other", "Colors opposite each other", "Black and white", "Three evenly spaced colors"],
+      a: 0,
+      e: "Analogous colors sit next to each other on the color wheel and usually create harmonious combinations."
+    },
+    {
+      q: "What happens when white is added to a color?",
+      o: ["It becomes a shade", "It becomes a tint", "It becomes a complement", "It becomes a neutral"],
+      a: 1,
+      e: "A tint is created by mixing a color with white, making it lighter."
+    },
+    {
+      q: "What happens when black is added to a color?",
+      o: ["It becomes a tint", "It becomes a tone", "It becomes a shade", "It becomes a hue"],
+      a: 2,
+      e: "A shade is created by adding black to a color, making it darker."
+    },
+    {
+      q: "Which group contains only warm colors?",
+      o: ["Blue, green, violet", "Red, orange, yellow", "Green, yellow, blue", "Violet, blue, green"],
+      a: 1,
+      e: "Red, orange, and yellow are commonly considered warm colors because they are associated with heat and sunlight."
+    },
+    {
+      q: "Which group contains only cool colors?",
+      o: ["Red, orange, yellow", "Pink, red, orange", "Blue, green, violet", "Yellow, orange, green"],
+      a: 2,
+      e: "Blue, green, and violet are commonly classified as cool colors."
+    },
+    {
+      q: "What does hue refer to?",
+      o: ["How light a color is", "The basic color family", "How dark a color is", "How much gray is present"],
+      a: 1,
+      e: "Hue refers to the basic identity of a color, such as red, blue, or yellow."
+    },
+    {
+      q: "What does saturation describe?",
+      o: ["Color intensity", "Color temperature", "Color placement", "Color brightness only"],
+      a: 0,
+      e: "Saturation describes the intensity or purity of a color. Highly saturated colors appear more vivid."
+    },
+    {
+      q: "How many colors are in a traditional triadic color scheme?",
+      o: ["Two", "Three", "Four", "Five"],
+      a: 1,
+      e: "A triadic color scheme uses three colors spaced evenly around the color wheel."
+    },
+    {
+      q: "Which color is created by mixing red and yellow in traditional RYB color mixing?",
+      o: ["Purple", "Green", "Orange", "Blue"],
+      a: 2,
+      e: "Red and yellow combine to create orange, a secondary color."
+    },
+    {
+      q: "Which of these is generally considered a neutral color?",
+      o: ["Bright orange", "Gray", "Electric blue", "Lime green"],
+      a: 1,
+      e: "Gray is a neutral color because it lacks a strong hue."
+    }
+  ],
+
+  intermediate: [
+    {
+      q: "What defines a monochromatic color scheme?",
+      o: ["Colors from opposite sides of the wheel", "One hue with different variations", "Three unrelated hues", "Only primary colors"],
+      a: 1,
+      e: "Monochromatic schemes use one hue with variations in tint, shade, and tone."
+    },
+    {
+      q: "What makes a split-complementary color scheme?",
+      o: ["Three neighboring colors", "One color and two colors beside its complement", "Four evenly spaced colors", "One hue and several shades"],
+      a: 1,
+      e: "A split-complementary scheme uses a base color and the two colors adjacent to its direct complement."
+    },
+    {
+      q: "In a traditional triadic scheme, how far apart are the three hues on the color wheel?",
+      o: ["30 degrees", "60 degrees", "120 degrees", "180 degrees"],
+      a: 2,
+      e: "Triadic colors are spaced 120 degrees apart, creating three evenly distributed hues."
+    },
+    {
+      q: "Which color model is used by screens and digital displays?",
+      o: ["CMYK", "RYB", "RGB", "HSB"],
+      a: 2,
+      e: "RGB stands for red, green, and blue. Digital screens combine these light channels to produce colors."
+    },
+    {
+      q: "Which color model is primarily used for traditional full-color printing?",
+      o: ["RGB", "CMYK", "HSL", "RYB"],
+      a: 1,
+      e: "CMYK stands for cyan, magenta, yellow, and key (black). It is a subtractive color model used in printing."
+    },
+    {
+      q: "In color theory, what does value describe?",
+      o: ["The lightness or darkness of a color", "The color's position on the wheel", "The color's temperature", "The color's intensity only"],
+      a: 0,
+      e: "Value describes how light or dark a color appears, independent of its hue."
+    },
+    {
+      q: "What is a major visual effect of complementary colors placed next to each other?",
+      o: ["They always blend into gray", "They create strong contrast", "They lose their saturation", "They become analogous"],
+      a: 1,
+      e: "Complementary colors create strong visual contrast when placed next to each other."
+    },
+    {
+      q: "What is created when a color is mixed with gray?",
+      o: ["A tint", "A shade", "A tone", "A primary color"],
+      a: 2,
+      e: "A tone is made by mixing a hue with gray, reducing its intensity."
+    },
+    {
+      q: "Which of these is a secondary color in traditional RYB color theory?",
+      o: ["Red", "Yellow", "Orange", "Blue"],
+      a: 2,
+      e: "Orange is a secondary color created by mixing the primary colors red and yellow."
+    },
+    {
+      q: "What is the main purpose of a color wheel?",
+      o: ["To measure brightness", "To organize relationships between hues", "To show printing costs", "To measure image resolution"],
+      a: 1,
+      e: "A color wheel organizes hues visually and helps artists understand color relationships."
+    },
+    {
+      q: "Which combination creates the strongest direct complementary relationship?",
+      o: ["Red and orange", "Blue and violet", "Yellow and violet", "Green and blue"],
+      a: 2,
+      e: "Yellow and violet are opposite each other on the traditional RYB color wheel."
+    },
+    {
+      q: "What does color temperature generally describe?",
+      o: ["The physical temperature of pigment", "Whether a color feels warm or cool", "The amount of light in a room", "How quickly a color fades"],
+      a: 1,
+      e: "Color temperature describes the warm or cool visual character of a hue."
+    }
+  ],
+
+  advanced: [
+    {
+      q: "What is simultaneous contrast?",
+      o: ["Two colors physically mixing", "A color appearing different because of its surrounding color", "A color becoming lighter over time", "Two hues sharing the same wavelength"],
+      a: 1,
+      e: "Simultaneous contrast occurs when surrounding colors influence how we perceive a color."
+    },
+    {
+      q: "What does metamerism describe in color perception?",
+      o: ["Colors that look identical under one light but different under another", "Colors that cannot be printed", "Colors with identical HEX codes", "Colors that always appear brighter on screens"],
+      a: 0,
+      e: "Metamerism occurs when different spectral compositions produce matching colors under one lighting condition but not another."
+    },
+    {
+      q: "What does a device's color gamut describe?",
+      o: ["Its maximum resolution", "The range of colors it can reproduce", "Its screen brightness", "The number of pixels in an image"],
+      a: 1,
+      e: "A color gamut is the range of colors a device or color space can represent or reproduce."
+    },
+    {
+      q: "In the additive RGB color model, what happens when red, green, and blue light are combined at full intensity?",
+      o: ["Black is produced", "White is produced", "Gray is produced", "Brown is produced"],
+      a: 1,
+      e: "Additive color mixing combines light. Red, green, and blue at full intensity produce white."
+    },
+    {
+      q: "Why is the CMYK printing process described as subtractive?",
+      o: ["It adds more light to paper", "Pigments absorb portions of light", "It removes pixels from an image", "It combines three types of screens"],
+      a: 1,
+      e: "Subtractive mixing works through pigments or inks that absorb portions of incoming light."
+    },
+    {
+      q: "What is relative luminance used to describe?",
+      o: ["A color's relative brightness", "A color's emotional meaning", "A color's position on the wheel", "The number of pigments in a mixture"],
+      a: 0,
+      e: "Relative luminance represents the perceived brightness of a color and is used in contrast calculations."
+    },
+    {
+      q: "Under WCAG 2.2 Level AA, what minimum contrast ratio is required for normal-sized text?",
+      o: ["2:1", "3:1", "4.5:1", "7:1"],
+      a: 2,
+      e: "WCAG 2.2 Level AA requires a contrast ratio of at least 4.5:1 for normal-sized text."
+    },
+    {
+      q: "What is color constancy?",
+      o: ["The ability to keep pigment from drying", "The tendency to perceive an object's color as relatively stable under changing illumination", "The ability to reproduce every visible color", "The process of mixing complementary colors"],
+      a: 1,
+      e: "Color constancy helps us perceive an object's color as relatively consistent despite changes in the lighting around it."
+    },
+    {
+      q: "What does a tetradic color scheme contain?",
+      o: ["One hue and three shades", "Two complementary color pairs", "Three neighboring hues", "Two identical hues"],
+      a: 1,
+      e: "A tetradic scheme uses four hues arranged as two complementary pairs."
+    },
+    {
+      q: "In the HSL color model, what does the L stand for?",
+      o: ["Luminance", "Lightness", "Level", "Length"],
+      a: 1,
+      e: "HSL stands for Hue, Saturation, and Lightness."
+    },
+    {
+      q: "Which three colors are the subtractive primaries in the CMY color model?",
+      o: ["Red, green, blue", "Red, yellow, blue", "Cyan, magenta, yellow", "Orange, green, violet"],
+      a: 2,
+      e: "Cyan, magenta, and yellow are the subtractive primary colors used in the CMY model."
+    },
+    {
+      q: "What is a perceptually uniform color space designed to do?",
+      o: ["Make equal numerical changes correspond more closely to equal perceived color differences", "Display only primary colors", "Remove all differences between hues", "Convert every color into grayscale"],
+      a: 0,
+      e: "Perceptually uniform spaces aim to make numerical distances better reflect the differences people perceive between colors."
+    }
+  ]
+};
+
+let quizQuestions = [];
+let quizQuestionIndex = 0;
+let quizCurrentScore = 0;
+let quizDifficulty = "beginner";
+let quizAnswered = false;
+
+function quizShuffle(array) {
+  const shuffled = [...array];
+
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+
+  return shuffled;
+}
+
+function quizBestKey() {
+  return "paletteStudioQuizBest_" + quizDifficulty;
+}
+
+function quizUpdateBest() {
+  const best = Number(localStorage.getItem(quizBestKey())) || 0;
+  $("quizBest").textContent = best;
+}
+
+function quizStart() {
+  quizDifficulty = $("quizDifficulty").value;
+  quizQuestions = quizShuffle(quizBank[quizDifficulty]).slice(0, 10);
+  quizQuestionIndex = 0;
+  quizCurrentScore = 0;
+  quizAnswered = false;
+
+  $("quizStart").hidden = true;
+  $("quizResults").hidden = true;
+  $("quizPlay").hidden = false;
+
+  $("quizScore").textContent = "0";
+  quizUpdateBest();
+  quizShowQuestion();
+}
+
+function quizShowQuestion() {
+  const question = quizQuestions[quizQuestionIndex];
+
+  quizAnswered = false;
+
+  $("quizProgressText").textContent =
+    "QUESTION " + (quizQuestionIndex + 1) + " OF 10";
+
+  $("quizDifficultyText").textContent =
+    quizDifficulty.toUpperCase();
+
+  $("quizProgressBar").style.width =
+    ((quizQuestionIndex + 1) / 10 * 100) + "%";
+
+  $("quizQuestion").textContent = question.q;
+  $("quizInstruction").textContent = "Choose the correct answer.";
+
+  $("quizAnswers").innerHTML = "";
+  $("quizFeedback").hidden = true;
+  $("quizNext").hidden = true;
+
+  if (question.color) {
+    $("quizColorSample").hidden = false;
+    $("quizColorSample").style.background = question.color;
+  } else {
+    $("quizColorSample").hidden = true;
+  }
+
+  question.o.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "quiz-answer";
+    button.textContent = option;
+
+    button.addEventListener("click", () => {
+      quizSelectAnswer(index);
+    });
+
+    $("quizAnswers").appendChild(button);
+  });
+}
+
+function quizSelectAnswer(selected) {
+  if (quizAnswered) return;
+
+  quizAnswered = true;
+
+  const question = quizQuestions[quizQuestionIndex];
+  const buttons = $("quizAnswers").querySelectorAll("button");
+
+  buttons.forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === question.a) {
+      button.classList.add("correct");
+    } else if (index === selected) {
+      button.classList.add("incorrect");
+    }
+  });
+
+  const isCorrect = selected === question.a;
+
+  if (isCorrect) {
+    quizCurrentScore += 100;
+    $("quizFeedbackTitle").textContent = "Correct! +100 points";
+  } else {
+    $("quizFeedbackTitle").textContent =
+      "Not quite! The answer is " + question.o[question.a] + ".";
+  }
+
+  $("quizScore").textContent = quizCurrentScore;
+  $("quizExplanation").textContent = question.e;
+  $("quizFeedback").hidden = false;
+
+  $("quizNext").textContent =
+    quizQuestionIndex === 9 ? "See Results" : "Next Question";
+
+  $("quizNext").hidden = false;
+}
+
+function quizNextQuestion() {
+  quizQuestionIndex++;
+
+  if (quizQuestionIndex >= 10) {
+    quizFinish();
+  } else {
+    quizShowQuestion();
+  }
+}
+
+function quizFinish() {
+  $("quizPlay").hidden = true;
+  $("quizResults").hidden = false;
+
+  const previousBest =
+    Number(localStorage.getItem(quizBestKey())) || 0;
+
+  const isNewBest = quizCurrentScore > previousBest;
+
+  if (isNewBest) {
+    localStorage.setItem(quizBestKey(), quizCurrentScore);
+  }
+
+  $("quizFinalScore").textContent =
+    quizCurrentScore + "/1000";
+
+  $("quizResultTitle").textContent =
+    quizCurrentScore === 1000
+      ? "Perfect Score!"
+      : quizCurrentScore >= 700
+      ? "Great Work!"
+      : quizCurrentScore >= 400
+      ? "Nice Effort!"
+      : "Keep Practicing!";
+
+  $("quizResultMessage").textContent =
+    "You answered " + (quizCurrentScore / 100) +
+    " out of 10 questions correctly.";
+
+  $("quizResultBest").textContent =
+    isNewBest
+      ? "New personal best!"
+      : "Personal best: " +
+        Math.max(previousBest, quizCurrentScore) + "/1000";
+
+  quizUpdateBest();
+}
+
+function quizReturnHome() {
+  $("quizPlay").hidden = true;
+  $("quizResults").hidden = true;
+  $("quizStart").hidden = false;
+
+  $("quizDifficulty").value = quizDifficulty;
+  $("quizScore").textContent = "0";
+
+  quizUpdateBest();
+}
+
+$("quizStartButton").addEventListener("click", quizStart);
+$("quizNext").addEventListener("click", quizNextQuestion);
+$("quizReplay").addEventListener("click", quizStart);
+$("quizHome").addEventListener("click", quizReturnHome);
+
+$("quizDifficulty").addEventListener("change", () => {
+  quizDifficulty = $("quizDifficulty").value;
+  quizUpdateBest();
+});
+
+quizUpdateBest();
+
 // Main navigation
 document.querySelectorAll(".nav-tab").forEach(button => {
   button.addEventListener("click", () => {
